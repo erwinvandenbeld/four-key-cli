@@ -1,7 +1,8 @@
 (ns four-key-cli.core
   (:import (org.eclipse.jgit.lib Ref)
            (org.eclipse.jgit.api Git)
-           (org.eclipse.jgit.revwalk RevWalk)))
+           (org.eclipse.jgit.revwalk RevWalk))
+  (:require [four-key-cli.numbers :as numbers]))
 
 (use 'clj-jgit.porcelain)
 (use 'clj-jgit.querying)
@@ -18,12 +19,6 @@
   [^Ref ref ^Git repo, ^RevWalk rev-walk]
   (.getCommitTime (find-rev-commit repo rev-walk (.getObjectId ref))))
 
-(defn ^:private average
-  [numbers]
-  (if (empty? numbers)
-    0
-    (/ (reduce + numbers) (count numbers))))
-
 (defn ^:private average-lead-time-between-commits
   [^Git repo ^RevWalk rev-walk coll]
   (->>
@@ -32,8 +27,7 @@
     (drop 1)
     (map #(.getCommitTime %))
     (map #(- (get-commit-time (first coll) repo rev-walk) %))
-    average
-    double
+    (numbers/average)
     ))
 
 (defn ^:private ref-to-version
@@ -73,5 +67,3 @@
                )
              )
   )
-
-;FIXME Clean methods, seperate namespaces
