@@ -1,69 +1,38 @@
 (ns four-key-cli.core
-  (:import (org.eclipse.jgit.lib Ref)
-           (org.eclipse.jgit.api Git)
-           (org.eclipse.jgit.revwalk RevWalk))
-  (:require [four-key-cli.numbers :as numbers]))
-
-(use 'clj-jgit.porcelain)
-(use 'clj-jgit.querying)
-
-(defn ^:private get-tags
-  [^Git repo]
-  (.call (.tagList repo)))
-
-(defn ^:private get-hash
-  [^Ref ref ^Git repo, ^RevWalk rev-walk]
-  (.getName (find-rev-commit repo rev-walk (.getObjectId ref))))
-
-(defn ^:private get-commit-time
-  [^Ref ref ^Git repo, ^RevWalk rev-walk]
-  (.getCommitTime (find-rev-commit repo rev-walk (.getObjectId ref))))
-
-(defn ^:private average-lead-time-between-commits
-  [^Git repo ^RevWalk rev-walk coll]
-  (->>
-    (git-log repo :since (get-hash (second coll) repo rev-walk) :until (get-hash (first coll) repo rev-walk))
-    (map :id)
-    (drop 1)
-    (map #(.getCommitTime %))
-    (map #(- (get-commit-time (first coll) repo rev-walk) %))
-    (numbers/average)
-    ))
-
-(defn ^:private ref-to-version
-  [^Ref ref]
-  (second (re-matches #"refs/tags/(.*)" (.getName ref))))
-
-(defn ^:private filter-version-and-previous-version
-  [version coll]
-  (take 2 (drop-while #(not= (ref-to-version %) version) coll)))
-
-
-(defn average-lead-time-for-changes
-  "Get the average lead time of all changes (commits) in this version"
-  [path version]
-  (with-repo path
-             (->>
-               (get-tags repo)
-               (sort-by #(get-commit-time % repo rev-walk))
-               reverse
-               (filter-version-and-previous-version version)
-               (average-lead-time-between-commits repo rev-walk)
-               )
-             )
-  )
+  (:require [four-key-cli.lead-time :as lead_time]
+            [four-key-cli.release-frequency :as release_frequency]
+            [cli-matic.core :refer [run-cmd]]))
 
 (defn release-frequency
-  [path ^Long since ^Long until]
-  "Get the number of releases for the given interval (timestamps in seconds)"
-  (with-repo path
-             (->>
-               (get-tags repo)
-               (filter ref-to-version)
-               (map #(get-commit-time % repo rev-walk))
-               (filter #(>= % since))
-               (filter #(< % until))
-               count
-               )
-             )
-  )
+  [{:keys [path since until]}]
+  (println (release_frequency/release-frequency path since until)))
+
+(defn lead-time
+  [{:keys [path version]}]
+  (println (lead_time/average-lead-time-for-changes path version)))
+
+(def CONFIGURATION
+  {:app         {:command     "4key"
+                 :description "Four Key Command Line Interface (CLI) to extract four-key-metrics"
+                 :version     "0.0.1"}
+   :global-opts [{:option "path" :short "p" :as "Repository path" :type :string :default "."}]
+   :commands    [{:command     "release-frequency"
+                  :description "How often an organization successfully releases to production."
+                  :opts        [
+                                {:option "since" :short "s" :as "Since (unix timestamp)" :type :int}
+                                {:option "until" :short "u" :as "Until (unix timestamp)" :type :int}]
+                  :runs        release-frequency}
+                 {:command     "lead-time"
+                  :description "The amount of time it takes a commit to get into production."
+                  :opts        [
+                                {:option "version" :short "v" :as "Version tag" :type :string}]
+                  :runs        lead-time}
+                 ]})
+
+
+
+
+(defn -main [& args]
+  (run-cmd args CONFIGURATION))
+
+

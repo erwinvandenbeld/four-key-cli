@@ -6,5 +6,5 @@
             :comment "MIT License"
             :year 2021
             :key "mit"}
-  :dependencies [[org.clojure/clojure "1.10.1"], [clj-jgit "1.0.1"], [com.fzakaria/slf4j-timbre "0.3.21"]]
+  :dependencies [[org.clojure/clojure "1.10.1"], [clj-jgit "1.0.1"], [com.fzakaria/slf4j-timbre "0.3.21"], [cli-matic "0.4.3"]]
   :repl-options {:init-ns four-key-cli.core})
