@@ -12,21 +12,21 @@ tag, and the previous tag, the lead time is calculated by extracting the commit 
 
 For this metric to work production releases should be tagged in your repository e.g. using  [semver](https://semver.org/).
 
-`4key --path [repository path] lead-time --version [version tag name] `
+`java -jar [uberjar filename] --path [repository path] lead-time --version [version tag name] `
 
 ### Release frequency
 *How often an organization successfully releases to production.*
 
 Calculates the number of GIT version tags for a given interval.
 
-`4key --path [repository path] release-frequency --since [Since (unix timestamp)] --until [Until (unix timestamp)]`
+`java -jar [uberjar filename] --path [repository path] release-frequency --since [Since (unix timestamp)] --until [Until (unix timestamp)]`
 
 ### Change Failure Rate
 *The percentage of deployments causing a failure in production*
 
 TODO
 
-### Time to Restore Ser ices
+### Time to Restore Services
 *How long it takes an organization to recover from a failure in production*
 
 TODO

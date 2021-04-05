@@ -1,7 +1,8 @@
 (ns four-key-cli.core
   (:require [four-key-cli.lead-time :as lead_time]
             [four-key-cli.release-frequency :as release_frequency]
-            [cli-matic.core :refer [run-cmd]]))
+            [cli-matic.core :refer [run-cmd]])
+  (:gen-class))
 
 (defn release-frequency
   [{:keys [path since until]}]
