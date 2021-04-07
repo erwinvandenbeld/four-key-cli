@@ -15,5 +15,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: lein deps
+    - name: Kibit static code analysis
+      run: lein kibit
     - name: Run tests
       run: lein test
+    - name: Check coverage
+      run: lein cloverage --fail-threshold 25
