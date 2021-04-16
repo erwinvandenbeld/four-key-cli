@@ -1,5 +1,6 @@
 # Four Key Cli
 
+![Clojure CI](https://github.com/erwinvandenbeld/four-key-cli/actions/workflows/clojure.yml/badge.svg "Clojure CI") ![Clojure CI](https://github.com/erwinvandenbeld/four-key-cli/actions/workflows/release-package.yml/badge.svg "Clojure CI")
 Command Line Interface (CLI) to extract [four-key-metrics](https://www.thoughtworks.com/radar/techniques/four-key-metrics) from a GIT repository.
 
 ## Usage

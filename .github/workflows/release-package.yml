@@ -9,3 +9,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Publish package
         run: lein deploy github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
