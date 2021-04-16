@@ -1,0 +1,13 @@
+name: Publish package to GitHub Packages
+on:
+  release:
+    types: [created]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish package
+        run: lein deploy github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
