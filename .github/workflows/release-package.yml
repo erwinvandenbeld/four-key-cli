@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Update version
+        run: lein set-version ${{ github.event.release.tag_name }}
       - name: Publish package
         run: lein deploy github
         env:
