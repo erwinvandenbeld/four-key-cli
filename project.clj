@@ -8,5 +8,5 @@
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.10.1"], [clj-jgit "1.0.1"], [com.fzakaria/slf4j-timbre "0.3.21"], [cli-matic "0.4.3"]]
   :main four-key-cli.core
-  :aot [four-key-cli.core]
+  :profiles {:uberjar {:aot :all}}
   :repl-options {:init-ns four-key-cli.core})
