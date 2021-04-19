@@ -30,9 +30,3 @@ TODO
 
 ### Time to Restore Services
 *How long it takes an organization to recover from a failure in production*
-
-TODO
-
-
-- FIXME build CI
-- FIXME Docker container (GraalVM?) (see https://hub.docker.com/_/clojure)*
