@@ -21,9 +21,9 @@ jobs:
     - name: Run tests
       run: lein test
     - name: Check coverage
-      run: lein cloverage --fail-threshold 25
+      run: lein cloverage --fail-threshold 25 --lcov
     - name: Coverage reporting
       uses: romeovs/lcov-reporter-action@v0.2.16
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        lcov-file: ./coverage/lcov.info
+        lcov-file: ./target/coverage/lcov.info
