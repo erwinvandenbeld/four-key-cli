@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Install dependencies
       run: lein deps
     - name: Kibit static code analysis
@@ -21,3 +22,8 @@ jobs:
       run: lein test
     - name: Check coverage
       run: lein cloverage --fail-threshold 25
+    - name: Coverage reporting
+      uses: romeovs/lcov-reporter-action@v0.2.16
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: ./target/coverage/lcov.info

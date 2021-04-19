@@ -1,4 +1,4 @@
-(defproject four-key-cli "1.0.0-SNAPSHOT"
+(defproject four-key-cli "develop-SNAPSHOT"
   :description "Command Line Interface (CLI) to extract four-key-metrics"
   :url "https://github.com/erwinvandenbeld/four-key-cli"
   :license {:name "MIT"
