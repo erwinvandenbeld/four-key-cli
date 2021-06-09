@@ -12,6 +12,6 @@ jobs:
       - name: Create uberjar
         run: lein uberjar
       - name: Publish package
-        run: lein deploy-uberjar github
+        run: lein deploy github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
