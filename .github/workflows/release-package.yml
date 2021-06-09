@@ -9,6 +9,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update version
         run: lein set-version ${{ github.event.release.tag_name }}
+      - name: Create uberjar
+        run: lein uberjar
       - name: Publish package
         run: lein deploy-uberjar github
         env:
