@@ -15,3 +15,5 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON_EMOJI: ':bell:'
+          SLACK_USERNAME: 'PR notification action'
+          MSG_MINIMAL: event
