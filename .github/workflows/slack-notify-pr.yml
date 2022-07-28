@@ -1,8 +1,7 @@
 name: slack-pr-notification
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [created]
 
 jobs:
   slackNotification:
