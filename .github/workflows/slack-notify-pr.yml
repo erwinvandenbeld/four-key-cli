@@ -3,6 +3,12 @@ on:
   pull_request:
     branches: [ master ]
 
+workflow_dispatch:
+  inputs:
+    release_version:
+      description: 'Set Release Version'
+      required: true
+
 jobs:
   slackNotification:
     name: Slack Notification
