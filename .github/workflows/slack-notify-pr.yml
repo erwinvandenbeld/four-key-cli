@@ -1,7 +1,8 @@
 name: slack-pr-notification
 on:
-  pull_request:
-    branches: [ master ]
+  push:
+    tags:
+      - '*'
 
 jobs:
   slackNotification:
@@ -9,7 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Slack Notification
+      - name: "Build Changelog"
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v3.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Read file contents
+#        id: read_file
+#        uses: andstor/file-reader-action@v1
+#        with:
+#          path: "CHANGELOG.md"
+      - name: "Slack Notification"
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON_EMOJI: ':bell:'
+          SLACK_USERNAME: 'PR notification action'
+          MSG_MINIMAL: 'event'
+          SLACK_TITLE: 'Release notes'
+          SLACK_MESSAGE: ${{ steps.build_changelog.outputs.changelog }}
