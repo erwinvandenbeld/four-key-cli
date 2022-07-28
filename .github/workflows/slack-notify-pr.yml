@@ -1,7 +1,8 @@
 name: slack-pr-notification
 on:
-  pull_request:
-    branches: [ master ]
+  push:
+    tags:
+      - '*'
 
 jobs:
   slackNotification:
