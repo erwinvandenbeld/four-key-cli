@@ -9,11 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Run Changelog CI
+        uses: saadmk11/changelog-ci@v1.0.0
       - name: Read file contents
         id: read_file
         uses: andstor/file-reader-action@v1
         with:
-          path: "LICENSE"
+          path: "CHANGELOG.md"
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
