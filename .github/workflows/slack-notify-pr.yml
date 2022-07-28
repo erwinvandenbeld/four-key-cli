@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Read file contents
+        id: read_file
+        uses: andstor/file-reader-action@v1
+        with:
+          path: "LICENSE"
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
@@ -16,6 +21,6 @@ jobs:
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON_EMOJI: ':bell:'
           SLACK_USERNAME: 'PR notification action'
-          MSG_MINIMAL: event
+          MSG_MINIMAL: 'event'
           SLACK_TITLE: 'Release notes'
-          SLACK_MESSAGE: 'FIXME'
+          SLACK_MESSAGE: ${{ steps.read_file.outputs.contents }}
